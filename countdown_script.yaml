@@ -1,0 +1,82 @@
+blueprint:
+  name: Floor Lamp Gradient Countdown
+  description: "A blueprint that counts down and changes the light color from start color to end color in a gradient."
+  domain: automation
+  input:
+    duration:
+      name: Countdown Duration (in seconds)
+      description: The total time for the countdown.
+      selector:
+        number:
+          min: 1
+          max: 600
+          unit_of_measurement: seconds
+    start_color:
+      name: Start Color
+      description: RGB values of the starting color.
+      selector:
+        color_rgb:
+    end_color:
+      name: End Color
+      description: RGB values of the ending color.
+      selector:
+        color_rgb:
+    light_entity:
+      name: Floor Lamp
+      description: The light entity to use for the countdown.
+      selector:
+        target:
+          entity:
+            domain: light
+    segment_count:
+      name: Number of Segments
+      description: Number of segments in the floor lamp.
+      default: 8
+      selector:
+        number:
+          min: 1
+          max: 20
+
+mode: single
+
+trigger:
+  platform: homeassistant
+  event: start
+
+action:
+  - variables:
+      time_per_segment: "{{ (duration / segment_count) | int }}"
+      red_diff: "{{ (end_color[0] - start_color[0]) / segment_count }}"
+      green_diff: "{{ (end_color[1] - start_color[1]) / segment_count }}"
+      blue_diff: "{{ (end_color[2] - start_color[2]) / segment_count }}"
+  
+  - repeat:
+      count: "{{ segment_count }}"
+      sequence:
+        - variables:
+            red_current: "{{ (start_color[0] + red_diff * (repeat.index - 1)) | int }}"
+            green_current: "{{ (start_color[1] + green_diff * (repeat.index - 1)) | int }}"
+            blue_current: "{{ (start_color[2] + blue_diff * (repeat.index - 1)) | int }}"
+
+        - service: light.turn_on
+          target: 
+            entity_id: "{{ light_entity.entity_id }}_segment_{{ '%03d' % repeat.index }}"
+          data:
+            rgb_color:
+              - "{{ red_current }}"
+              - "{{ green_current }}"
+              - "{{ blue_current }}"
+            brightness: 255
+
+        - delay:
+            seconds: "{{ time_per_segment }}"
+
+  - service: light.turn_on
+    target:
+      entity_id: "{{ light_entity.entity_id }}"
+    data:
+      rgb_color:
+        - "{{ end_color[0] }}"
+        - "{{ end_color[1] }}"
+        - "{{ end_color[2] }}"
+      brightness: 255
