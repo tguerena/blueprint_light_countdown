@@ -1,0 +1,110 @@
+blueprint:
+  name: Countdown Timer Alarm
+  description: Turn on light segments progressively during a countdown and trigger an effect at the end.
+  domain: automation
+  input:
+    start_time:
+      name: Start Time
+      description: When to start the countdown
+      selector:
+        time:
+    end_time:
+      name: End Time
+      description: When to end the countdown
+      selector:
+        time:
+    overall_light:
+      name: Overall Light Entity
+      description: The main light entity to control
+      selector:
+        entity:
+          domain: light
+    segment1:
+      name: Segment 1 Light Entity
+      description: First segment of the light to turn on
+      selector:
+        entity:
+          domain: light
+    segment2:
+      name: Segment 2 Light Entity
+      description: Second segment of the light to turn on
+      selector:
+        entity:
+          domain: light
+    segment3:
+      name: Segment 3 Light Entity
+      description: Third segment of the light to turn on
+      selector:
+        entity:
+          domain: light
+    segment4:
+      name: Segment 4 Light Entity
+      description: Fourth segment of the light to turn on
+      selector:
+        entity:
+          domain: light
+    segment5:
+      name: Segment 5 Light Entity
+      description: Fifth segment of the light to turn on
+      selector:
+        entity:
+          domain: light
+    segment6:
+      name: Segment 6 Light Entity
+      description: Sixth segment of the light to turn on
+      selector:
+        entity:
+          domain: light
+    segment7:
+      name: Segment 7 Light Entity
+      description: Seventh segment of the light to turn on
+      selector:
+        entity:
+          domain: light
+    segment8:
+      name: Segment 8 Light Entity
+      description: Eighth segment of the light to turn on
+      selector:
+        entity:
+          domain: light
+    end_effect:
+      name: End Effect
+      description: Effect to trigger at the end of the countdown
+      selector:
+        action:
+    
+trigger:
+  - platform: time
+    at: !input start_time
+
+action:
+  - service: light.turn_on
+    data:
+      entity_id: !input overall_light
+      brightness_pct: 10
+      rgb_color: [255, 0, 0]
+      
+  # Turn on each segment progressively
+  - delay: "{{ (as_timestamp(states('input_datetime.end_time')) - as_timestamp(states('input_datetime.start_time'))) / 8 }}"
+  - service: light.turn_on
+    data:
+      entity_id: !input segment1
+      brightness_pct: 100
+      rgb_color: [0, 255, 0]
+  - delay: "{{ (as_timestamp(states('input_datetime.end_time')) - as_timestamp(states('input_datetime.start_time'))) / 8 }}"
+  - service: light.turn_on
+    data:
+      entity_id: !input segment2
+      brightness_pct: 100
+      rgb_color: [0, 255, 0]
+  
+  # Continue for all segments up to segment 8
+  - delay: "{{ (as_timestamp(states('input_datetime.end_time')) - as_timestamp(states('input_datetime.start_time'))) / 8 }}"
+  - service: light.turn_on
+    data:
+      entity_id: !input segment8
+      brightness_pct: 100
+      rgb_color: [0, 255, 0]
+  
+  # At the end, trigger the final effect
+  - service: !input end_effect
