@@ -72,9 +72,9 @@ blueprint:
     #   description: Effect to trigger at the end of the countdown
     #   selector:
     #     action:
-  variables:
-    start: !input start_time
-    end: !input end_time
+variables:
+  start: !input start_time
+  end: !input end_time
 trigger:
   - platform: time
     at: !input start_time
