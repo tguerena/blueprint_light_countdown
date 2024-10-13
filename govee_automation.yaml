@@ -1,7 +1,7 @@
 blueprint:
-  name: Govee Segment Lamp Countdown Timer Alarm Script
+  name: Govee Segment Lamp Countdown Timer Alarm
   description: Turn on light segments progressively during a countdown and trigger an effect at the end.
-  domain: script
+  domain: automation
   input:
     start_time:
       name: Start Time
@@ -67,56 +67,94 @@ blueprint:
       selector:
         entity:
           domain: light
-
-sequence:
+    # end_effect:
+    #   name: End Effect
+    #   description: Effect to trigger at the end of the countdown
+    #   selector:
+    #     action:
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+    #
+variables: 
+  start: !input start_time
+  end: !input end_time
+trigger:
+  - platform: time
+    at: !input start_time
+action:
   - service: light.turn_on
     data:
       entity_id: !input overall_light
       brightness_pct: 20
       rgb_color: [255, 0, 0]
-  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input end_time) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input start_time)) / 8 }}"
+  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + end) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + start)) / 8 }}"
   - service: light.turn_on
     data:
       entity_id: !input segment1
       brightness_pct: 100
       rgb_color: [0, 255, 0]
-  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input end_time) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input start_time)) / 8 }}"
+  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + end) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + start)) / 8 }}"
   - service: light.turn_on
     data:
       entity_id: !input segment2
       brightness_pct: 100
       rgb_color: [0, 255, 0]
-  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input end_time) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input start_time)) / 8 }}"
+  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + end) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + start)) / 8 }}"
   - service: light.turn_on
     data:
       entity_id: !input segment3
       brightness_pct: 100
       rgb_color: [0, 255, 0]
-  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input end_time) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input start_time)) / 8 }}"
+  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + end) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + start)) / 8 }}"
   - service: light.turn_on
     data:
       entity_id: !input segment4
       brightness_pct: 100
       rgb_color: [0, 255, 0]
-  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input end_time) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input start_time)) / 8 }}"
+  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + end) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + start)) / 8 }}"
   - service: light.turn_on
     data:
       entity_id: !input segment5
       brightness_pct: 100
       rgb_color: [0, 255, 0]
-  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input end_time) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input start_time)) / 8 }}"
+  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + end) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + start)) / 8 }}"
   - service: light.turn_on
     data:
       entity_id: !input segment6
       brightness_pct: 100
       rgb_color: [0, 255, 0]
-  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input end_time) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input start_time)) / 8 }}"
+  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + end) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + start)) / 8 }}"
   - service: light.turn_on
     data:
       entity_id: !input segment7
       brightness_pct: 100
       rgb_color: [0, 255, 0]
-  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input end_time) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + !input start_time)) / 8 }}"
+  - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + end) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + start)) / 8 }}"
   - service: light.turn_on
     data:
       entity_id: !input segment8
