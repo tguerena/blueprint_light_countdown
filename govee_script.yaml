@@ -134,4 +134,5 @@ action:
       entity_id: !input segment8
       brightness_pct: 100
       rgb_color: [0, 255, 0]
+  - delay: "{{ (as_timestamp(states('input_datetime.end_time')) - as_timestamp(states('input_datetime.start_time'))) / 8 }}"
   
