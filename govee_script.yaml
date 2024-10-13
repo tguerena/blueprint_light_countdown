@@ -67,11 +67,11 @@ blueprint:
       selector:
         entity:
           domain: light
-    end_effect:
-      name: End Effect
-      description: Effect to trigger at the end of the countdown
-      selector:
-        action:
+    # end_effect:
+    #   name: End Effect
+    #   description: Effect to trigger at the end of the countdown
+    #   selector:
+    #     action:
     
 trigger:
   - platform: time
