@@ -73,8 +73,10 @@ blueprint:
     #   selector:
     #     action:
   variables:
-    start: "{{ now().strftime('%Y-%m-%d') + ' ' + states('input_datetime.start_time') }}"
-    end: "{{ now().strftime('%Y-%m-%d') + ' ' + states('input_datetime.end_time') }}"
+    start_raw: !input start_time
+    end_raw: !input end_time
+    start: "{{ now().strftime('%Y-%m-%d') + ' ' + start_raw }}"
+    end: "{{ now().strftime('%Y-%m-%d') + ' ' + end_raw }}"
     interval: >
       {{ (as_timestamp(end) - as_timestamp(start)) / 8 }}
     
