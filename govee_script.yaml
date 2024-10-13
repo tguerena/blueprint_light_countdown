@@ -1,5 +1,5 @@
 blueprint:
-  name: Countdown Timer Alarm
+  name: Govee Segment Lamp Countdown Timer Alarm
   description: Turn on light segments progressively during a countdown and trigger an effect at the end.
   domain: automation
   input:
