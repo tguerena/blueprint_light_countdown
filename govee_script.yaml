@@ -79,6 +79,11 @@ trigger:
   - platform: time
     at: !input start_time
 action:
+  - service: light.turn_on
+    data:
+      entity_id: !input overall_light_entity
+      brightness_pct: 20
+      rgb_color: [255, 0, 0]
   - delay: "{{ (as_timestamp(now().strftime('%Y-%m-%d') + ' ' + end) - as_timestamp(now().strftime('%Y-%m-%d') + ' ' + start)) / 8 }}"
   - service: light.turn_on
     data:
