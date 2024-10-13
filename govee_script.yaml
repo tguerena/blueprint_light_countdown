@@ -97,8 +97,37 @@ action:
       entity_id: !input segment2
       brightness_pct: 100
       rgb_color: [0, 255, 0]
-  
-  # Continue for all segments up to segment 8
+  - delay: "{{ (as_timestamp(states('input_datetime.end_time')) - as_timestamp(states('input_datetime.start_time'))) / 8 }}"
+  - service: light.turn_on
+    data:
+      entity_id: !input segment3
+      brightness_pct: 100
+      rgb_color: [0, 255, 0]
+  - delay: "{{ (as_timestamp(states('input_datetime.end_time')) - as_timestamp(states('input_datetime.start_time'))) / 8 }}"
+  - service: light.turn_on
+    data:
+      entity_id: !input segment4
+      brightness_pct: 100
+      rgb_color: [0, 255, 0]
+  - delay: "{{ (as_timestamp(states('input_datetime.end_time')) - as_timestamp(states('input_datetime.start_time'))) / 8 }}"
+  - service: light.turn_on
+    data:
+      entity_id: !input segment5
+      brightness_pct: 100
+      rgb_color: [0, 255, 0]
+  - delay: "{{ (as_timestamp(states('input_datetime.end_time')) - as_timestamp(states('input_datetime.start_time'))) / 8 }}"
+  - service: light.turn_on
+    data:
+      entity_id: !input segment6
+      brightness_pct: 100
+      rgb_color: [0, 255, 0]
+  - delay: "{{ (as_timestamp(states('input_datetime.end_time')) - as_timestamp(states('input_datetime.start_time'))) / 8 }}"
+  - service: light.turn_on
+    data:
+      entity_id: !input segment7
+      brightness_pct: 100
+      rgb_color: [0, 255, 0]
+    # Continue for all segments up to segment 8
   - delay: "{{ (as_timestamp(states('input_datetime.end_time')) - as_timestamp(states('input_datetime.start_time'))) / 8 }}"
   - service: light.turn_on
     data:
